@@ -15,7 +15,7 @@ class Champions(models.Model):
   CC = models.CharField(max_length=512, null=True) 
   
 class Champion_rate(models.Model):
-  champ_id = models.CharField(primary_key=True, max_length=255)
+ 
   champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
   line = models.CharField(max_length=255, null=True)
   winrate = models.CharField(max_length=255, null=True)
@@ -23,14 +23,14 @@ class Champion_rate(models.Model):
   banrate = models.CharField(max_length=255, null=True)
 
 class Champion_story(models.Model):
-  champ_id = models.CharField(primary_key=True, max_length=255)
+  
   champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
   url = models.CharField(max_length=255, null=True),
   text = models.CharField(max_length=255, null=True)
   story = models.CharField(max_length=255,null=True)
   
 class Champion_tip(models.Model):
-  champ_id = models.CharField(primary_key=True, max_length=255)
+  
   champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
   key = models.CharField(max_length=255, null=True)
   id = models.IntegerField(null=True)
@@ -39,14 +39,14 @@ class Champion_tip(models.Model):
   allytips = models.CharField(max_length=255, null=True)
   
 class Champion_counter(models.Model):
-  champ_id = models.CharField(primary_key=True, max_length=255)
+  
   champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
   countername = models.CharField(max_length=255, null=False)
   winrate = models. CharField(max_length=255, null=True)
   
 
 class ChampionSkill(models.Model):
-  champ_id = models.CharField(primary_key=True, max_length=255)
+ 
   champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
   passive = models.CharField(max_length=255, null=True)
   Q_name = models.CharField(max_length=255, null=True)
