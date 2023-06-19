@@ -16,6 +16,10 @@ class Champions(models.Model):
     position = models.CharField(max_length=100, null=True)
     CC = models.CharField(max_length=512, null=True)
 
+    @property
+    def image(self):
+        return self.champion_tip_set.first().image_url
+
 
 class Champion_rate(models.Model):
     champion = models.ForeignKey(Champions, primary_key=True, on_delete=models.CASCADE)
@@ -44,6 +48,10 @@ class Champion_counter(models.Model):
     champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
     counter_name = models.CharField(max_length=512)
     win = models.CharField(max_length=512)
+
+    @property
+    def image(self):
+        return self.champion.image
 
 
 class champion_skill_name(models.Model):
@@ -75,3 +83,27 @@ class Review(models.Model):
     review = models.TextField()
     rating = models.FloatField()
     likes = models.FloatField()
+
+
+class WordCloud(models.Model):
+    champion = models.ForeignKey(Champions, on_delete=models.CASCADE)
+    img = models.ImageField()
+
+
+class Comment(models.Model):
+    content = models.CharField(
+        "댓글 입력",
+        max_length=255,
+        validators=[validators.MinLengthValidator(3, "최소 세 글자 이상은 입력해주셔야 합니다.")],
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    champion = models.ForeignKey(
+        Champions,
+        #   related_name='comment_set',
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+    comment_id = models.AutoField(primary_key=True)

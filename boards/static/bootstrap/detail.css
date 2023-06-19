@@ -1,14 +1,13 @@
-img:hover {
+.skill-img:hover {
   width: 7rem;
   transition: opacity 0.5s ease;
 }
 
 p {
-  opacity: 0.6;
+  opacity: 0.8;
   transition: opacity 0.5s ease;
 }
 
-img:hover + p {
+.skill-img:hover + p {
   opacity: 1;
-  
 }

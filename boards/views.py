@@ -13,7 +13,12 @@ from .models import (
     Champion_story,
 )
 from django.contrib.auth.models import User
-from .forms import ReviewForm
+from .forms import ReviewForm, CommentForm
+
+from django.core.paginator import Paginator
+import json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.forms.models import model_to_dict
 
 
 def index(request):
@@ -22,13 +27,11 @@ def index(request):
 
 
 def board_detail(request, champion_id):
-    # 요청하는 요소: db에서 가져오고자 하는 컬럼의 값 ex) champion 테이블의 champion값
     ChampionBoard = (
         Champions.objects.filter()
         .prefetch_related("review_set")
         .get(champion=champion_id)
     )
-    # ChampionBoard = 테이블에서 가져온 값들을 저장할 변수, orm으로 가져오고자 할 때 ex) champion은 가져오고자 하는 값
     ChampionTipBoard = champion_tip.objects.filter().get(champion=champion_id)
     ChampionSkillImgBoard = champion_skill_img_text.objects.filter().get(
         champion=champion_id
@@ -37,7 +40,22 @@ def board_detail(request, champion_id):
         champion_id=champion_id
     ).all()
 
-    # ChampionCounterImgBoard = champion_tip.objects.filter().get(champion=counter_name)
+    counter_data = ChampionCounterBoard.values()
+    # print(counter_data)
+    counter_tips = champion_tip.objects.filter(
+        champion_id__in=[counter.get("counter_name") for counter in counter_data]
+    ).all()
+    counter_tips = counter_tips.values()
+    counter_tips = {ct["champion_id"]: ct["image_url"] for ct in counter_tips}
+    print(counter_tips)
+    for counter in counter_data:
+        cid = counter["counter_name"]
+        try:
+            counter["image_url"] = counter_tips[cid]
+        except KeyError as e:
+            counter[
+                "image_url"
+            ] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGF64l_02CqKyoe9AbHArznivy5B7xLpYzArNj6cQ&s"
 
     ChampionRateBoard = Champion_rate.objects.filter().get(champion=champion_id)
     ChampionSkillNameBoard = champion_skill_name.objects.filter().get(
@@ -45,8 +63,17 @@ def board_detail(request, champion_id):
     )
     ChampionStoryBoard = Champion_story.objects.filter().get(champion=champion_id)
 
-    # 댓글 board
-    form = ReviewForm()
+    form = CommentForm()
+    comments = ChampionBoard.review_set.all()
+    paginator = Paginator(comments, 10)
+    page = request.GET.get("page")
+
+    try:
+        comments = paginator.page(page)
+    except PageNotAnInteger:
+        comments = paginator.page(1)
+    except EmptyPage:
+        comments = paginator.page(paginator.num_pages)
 
     if request.method == "POST":
         form = ReviewForm(request.POST)
@@ -57,7 +84,7 @@ def board_detail(request, champion_id):
             return redirect(
                 reverse("ChampionBoard:detail", kwargs={"champion_id": champion_id})
             )
-
+    ChampionCounterBoard = counter_data
     return render(
         request,
         "boards/detail.html",
@@ -66,10 +93,20 @@ def board_detail(request, champion_id):
             "ChampionTipBoard": ChampionTipBoard,
             "ChampionSkillImgBoard": ChampionSkillImgBoard,
             "ChampionCounterBoard": ChampionCounterBoard,
-            # "ChampionCounterImgBoard": ChampionCounterImgBoard,
             "ChampionRateBoard": ChampionRateBoard,
             "ChampionSkillNameBoard": ChampionSkillNameBoard,
             "ChampionStoryBoard": ChampionStoryBoard,
             "form": form,
+            "comments": comments,
+            "page": page,  # 추가된 부분: 현재 페이지 번호를 템플릿에 전달
         },
     )
+
+
+def search(request):
+    if request.method == "POST":
+        searched = request.POST["searched"]
+        if len(searched) == 0:
+            return redirect("http://127.0.0.1:8000/boards/")
+        else:
+            return redirect("/boards/{}".format(searched))

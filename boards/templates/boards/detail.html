@@ -110,39 +110,42 @@
       </div>
       <style>
         .w-20p{
-          width: 20%;
+          width: 19%;
+          border-radius: 1rem;
+
         }
+
       </style>
 
       <div "champion-skill-info" style=" display: flex; justify-content: space-between; position: relative; margin-top: 100px; color:white; ">
         
-        <div class="passive w-20p" style= "padding: 1em; background: linear-gradient(to top, #091428, #0A323C)">
+        <div class=" passive w-20p" style= "padding: 1em;  background: linear-gradient(to top, #091428, #0A323C)">
           
-          <img  src="{{ ChampionSkillImgBoard.passive_img }}" />
+          <img class="skill-img" src="{{ ChampionSkillImgBoard.passive_img }}" />
           <p style="position:relative; top: 10px; font-size: 1.5rem;"> 패시브: <br><span style="font-weight:bold;">{{ ChampionSkillNameBoard.passive_name}}</span>  </p>
           <p align="left" style="position:relative;  top: 10px;">{{ ChampionSkillImgBoard.passive }}</p>
         </div>
 
         <div class="Q-info w-20p" style= "padding: 1em; background: linear-gradient(to bottom, #091428, #0A323C)">
-          <img src="{{ ChampionSkillImgBoard.q_img }}" />
+          <img class="skill-img" src="{{ ChampionSkillImgBoard.q_img }}" />
           <p style="position:relative; top: 10px; font-size: 1.5rem;">Q: <br><span style="font-weight:bold;"> {{ ChampionSkillNameBoard.Q_name}}</span></p>
           <p align="left" style="position:relative; top: 20px;">{{ ChampionSkillImgBoard.Q }}</p>
         </div>
 
         <div class="W-info w-20p" style= "padding: 1em; background: linear-gradient(to top, #091428, #0A323C)">
-          <img src="{{ ChampionSkillImgBoard.w_img }}" />
+          <img class="skill-img" src="{{ ChampionSkillImgBoard.w_img }}" />
           <p style="position:relative; top: 10px; font-size: 1.5rem;">W: <br><span style="font-weight:bold;">{{ ChampionSkillNameBoard.W_name}}</span></p>
           <p align="left" style="position:relative; top: 20px;">{{ ChampionSkillImgBoard.W }}</p>
         </div>
 
         <div class="E-info w-20p" style= "padding: 1em; background: linear-gradient(to bottom, #091428, #0A323C)">
-          <img src="{{ ChampionSkillImgBoard.e_img }}" />
+          <img class="skill-img" src="{{ ChampionSkillImgBoard.e_img }}" />
           <p style="position:relative; top: 10px; font-size: 1.5rem;">E: <br><span style="font-weight:bold;">{{ ChampionSkillNameBoard.E_name}}</span></p>
           <p align="left" style="position:relative; top: 20px;">{{ ChampionSkillImgBoard.E }}</p>
         </div>
 
         <div class="R-info w-20p" style= "padding: 1em; background: linear-gradient(to top, #091428, #0A323C)">
-          <img src="{{ ChampionSkillImgBoard.r_img }}" />
+          <img class="skill-img" src="{{ ChampionSkillImgBoard.r_img }}" />
           <p style="position:relative; top: 10px; font-size: 1.5rem;">R: <br><span style="font-weight:bold;"> {{ ChampionSkillNameBoard.R_name}}</span></p>
           <p align="left" style="position:relative; top: 20px;">{{ ChampionSkillImgBoard.R }}</p>
         </div>
@@ -154,7 +157,7 @@
 
         </style>
         
-        <div class="row mt-3 counter-box">
+        <div class="row mt-3 counter-box" style="width: 105%;">
           <h4 style="color:white;">Counter</h4>
           <hr>
           <style>
@@ -168,12 +171,14 @@
               border-right:none;
 
             }
-{% comment %} <!-- 바뀐부분 --> {% endcomment %}
+
           </style>
           {% for counter in ChampionCounterBoard %}
             <div class="w-20p d-flex br-5" style="color:white; cursor:default; justify-content:space-between">
               <div class="">
-              <img src="{{ ChampionTipBoard.image_url }}" style="width: 20%;">  {{counter.counter_name}}
+                
+              <img src="{{ counter.image_url }}" style="width: 20%;">  {{counter.counter_name}}
+              {% comment %} <img src="{{ ChampionTipBoard.image_url }}" style="width: 20%;">  {{counter.counter_name}} {% endcomment %}
               </div>
               <div class="">
                 {{ counter.win }}
@@ -184,6 +189,10 @@
       </div>
     </div>
 
+    </div>
+    <div class="WordCloud-container">
+
+     
     </div>
 
   <div class="video3">
@@ -238,29 +247,89 @@
     {{ ChampionTipBoard.ally_tips }}
   </span>
 
-    <div class="story-filed" style= "width: 800px; text-align: center; margin-top: 150px;" >
-      <p> {{ ChampionStoryBoard.story }} </p>
-    </div>
-
-    <div class="url-filed" style= "width: 800px; text-align: center;" >
-      <p> 출처: {{ ChampionStoryBoard.url }} </p>
-    </div>
-
-    <div class="comment-board">
-      <form method='POST' action="" style="display:flex;">
-        {% csrf_token %}
-        <div style="flex-grow:1;">
-          {{form.content}}
-          <div id="content-help" class="form-text text-danger">{{ form.content.errors }}</div>
+    <div class="story-filed" style= "width: 900px; text-align: center; margin-top: 150px; position: relative; left: 150px;" >
+      
+     <h1> 스토리 더보기: </h1>
+       <details> 
+        <p> {{ ChampionStoryBoard.story}}  </p>
+        <div class="url-filed" style= "width: 800px; text-align: center;" >
+          <p> 출처: {{ ChampionStoryBoard.url }} </p>
         </div>
-      </form>
+      </details>
+    </div>
+    
+   
+
+    <div class="wc-cotainer" style="position: relative; left: 300px; top: 100px;">
+      <img class='word-cloud' src="{% get_static_prefix %}bootstrap/images/{{ ChampionBoard.champion }}.png" height = "600" width="600">
+    </div>
+    
+    <div class="comment-board" style="margin-top: 200px;">
+
+      <div class="mt-5">
+        <form method='POST' action="" style="display:flex;">
+          {% csrf_token %}
+          <div style="flex-grow:1; border: 1px solid white;">
+            {{form.content}}
+            <div id="content-help" class="form-text text-danger">{{ form.content.errors }}</div>
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary">작성</button>
+          </div>
+        </form>
+      </div>
+
+      <h1>댓글 </h1>
+ 
       <div class="my-5">
         <ul>
-          {% for review in ChampionBoard.review_set.all %}
-            <li><p style="color:white;">{{review.review}}</p></li>
+          {% for review in comments %}
+            <li><p style="color:white; opacity:1; font-size:1.25rem;">{{review.review}}</p></li>
           {% endfor %}
         </ul>
       </div>
+
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+          <li class="page-item">
+            <span class="step-links">
+              {% if comments.has_previous %}
+              <a class="page-link" href="?page={{ comments.previous_page_number }}" aria-label="Previous">
+              {% endif %}
+              <span aria-hidden="true">&laquo;</span>
+           
+            </a>
+          </li>
+
+          {% if page < 1 %}
+          <li class="page-item"><a class="page-link" 
+            href="?page= {{ comments.previous_page_number }}">{{comments.previous_page_number }}</a></li>
+
+          {{ else }}
+
+          <li class="page-item"><a class="page-link" 
+            href="?page= {{ comments.previous_page_number }}">{{comments.previous_page_number }}</a></li>
+          {% endif %}
+
+          <li class="page-item"><a class="page-link" 
+            href="?page= {{ comments.number }}">{{ comments.number }}</a></li>
+         
+          <li class="page-item"><a class="page-link" 
+            href="?page= {{ comments.next_page_number }}">{{ comments.next_page_number }}</a></li>
+            
+          <li class="page-item">
+            {% if comments.has_next %}
+            <a class="page-link" href="?page={{ comments.next_page_number }}" aria-label="Next">
+            {% endif %}
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div>
+    </div>
+
       </div>
     </div>
   </div>

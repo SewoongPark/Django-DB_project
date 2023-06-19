@@ -43,10 +43,12 @@
           {% endif %}
         </div>
        
-        <form class="d-flex">
+        <form class="d-flex" method="POST" action="{% url "search" %}">
+          {% csrf_token %}
           <input
             class="form-control me-2"
             type="search"
+            name="searched"
             placeholder="검색할 내용을 입력하세요"
             aria-label="Search"
           />

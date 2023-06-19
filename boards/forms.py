@@ -9,6 +9,7 @@ from .models import (
     champion_skill_name,
     champion_skill_img_text,
     Review,
+    Comment,
 )
 
 # class UserForm(forms.ModelForm):
@@ -40,21 +41,22 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ["review"]
+        widgets = {"title": forms.TextInput(attrs={"placeholder": "제목을 입력해주세요."})}
 
     def _widget_update(self):
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
 
 
-# class ChampionTipForm(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self._widget_update()
+class CommentForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._widget_update()
 
-#     class Meta:
-#         model = champion_tip
-#         fields = ["image_url", "emepy_tips"]
+    class Meta:
+        model = Comment
+        fields = ["content"]
 
-#     def _widget_update(self):
-#         for visible in self.visible_fields():
-#             visible.field.widget.attrs["class"] = "form-control"
+    def _widget_update(self):
+        for visible in self.visible_fields():
+            visible.field.widget.attrs["class"] = "form-control"
