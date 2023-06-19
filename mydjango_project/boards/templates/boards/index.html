@@ -1,0 +1,49 @@
+{% extends "./base.html" %}
+{% block main %}
+{% load static %}
+
+<head>
+  <link rel="stylesheet" href="{% static 'bootstrap/example.css' %}" />
+  <link rel="stylesheet" href="{%static 'bootstrap/main_style.css'%}" />
+ <!--이미지 크기, 간격 조정-->
+  <style>
+
+  </style>
+</head>
+
+<body>
+<main>
+  <div class="container">
+    <div class="mt-5 mb-5" >
+      <div class="mb-5" style="justify-content:space-between; align-items:center;">
+        <h1 class="main-title" style='display:flex; margin: auto; font-weight:bold; color: white; text-align: center"'>챔피언 전체 목록</h1>
+      </div> 
+      <p class="lead" style='color: white; '>
+        챔피언 분석 (플래티넘 이상 티어, Patch 13.12) 실시간으로 업데이트되는 롤
+        13.12패치의 티어 정보입니다.<br />
+        소환사의 협곡 챔피언 분석으로 빌드, 룬, 아이템, 스킬 정보를 통해 승률을
+        높여보세요!
+      </p>
+    
+      <div class="row" style = "position:relative; top: 50px;">
+        {% for board in board_list %}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="text-center">
+              <a href="{{ board.champion_id }}">
+                
+                  <img class="champion-img" src="{{ board.image_url }}" alt="Champion Image"
+                  style = " width: 100%;
+                  max-height: 150px;
+                  object-fit: contain;
+                  margin-bottom: 10px;">
+                
+              </a>
+              <p class="mt-2" style='color: white;'>{{ board.champion_id }}</p>
+            </div>
+          </div>
+        {% endfor %}
+    </div>
+  </div>
+</main>
+</body>
+{% endblock %}

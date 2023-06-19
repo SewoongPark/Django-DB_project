@@ -1,0 +1,11 @@
+body {
+  background-image: linear-gradient(to left, #091428, #7d0c24), linear-gradient(to bottom, #091428, #7d0c24);
+  background-repeat: no-repeat;
+  background-size: 100% 50%, 50% 100%;
+  background-position: top left, bottom right;
+
+}
+
+.champion-info {
+  margin-top: 5px;
+}
