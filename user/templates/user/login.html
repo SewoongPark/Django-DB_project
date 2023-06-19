@@ -1,0 +1,111 @@
+{% extends "boards/base.html" %} {% block main %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>word_cloud</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/style.css' %}" />
+
+    <script src="{% static 'bootstrap/add_champ_div.js' %}">
+      window.addEventListener("load", function() {
+        const video = document.getElementById("video");
+        video.play();
+    
+        window.addEventListener("beforeunload", function() {
+          video.pause();
+        });
+      });
+
+
+    </script>
+  </head>
+
+  <body>
+    <!-- 안녕하세요. -->
+    <nav id="nav1">
+      <ul>
+        <li>
+          <!--홈 화면으로 가는 a 태그-->
+          <a href="index.html"><img src="" alt="트롤빠따" /></a>
+        </li>
+        <li>
+          <form>
+            <input
+              type="text"
+              name="search"
+              placeholder="검색할 내용을 입력하세요."
+            />
+          </form>
+        </li>
+        <li>
+          <a href="join.html">회원가입</a
+          ><!--회원가입 페이지로 이동-->
+          <a href="login.html">로그인</a
+          ><!--로그인 페이지로 이동-->
+        </li>
+      </ul>
+    </nav>
+    <div id="all_champions"></div>
+  </body>
+</html>
+
+<div class="container my-3">
+
+  <div class="mb-3 p-3">
+
+    <video id="video" autoplay loop muted playsinline 
+    style="height: 100%; width: 100%; object-position: center center; object-fit: cover; z-index: -1; 
+    position: absolute; height: 100%; width: 100%; top: 1px; left: 0px; transition: opacity 0.5s ease 0s; overflow: hidden;">
+      <source src="https://assets.contentstack.io/v3/assets/blt2ac872571a60ee02/blt8b29f61f82e0f324/6185ba6bcc735f786653b585/Colors_Hero_Desktop.mp4" type="video/mp4">
+    </video>
+
+  <form method="post" action="{% url 'user:login' %}">
+    {% csrf_token %}
+    <div class="fieldWrapper m-2" style="color: white;">
+      {{ form.username.label_tag }}
+      <input
+        type="text"
+        class="form-control"
+        name="{{ form.username.name }}"
+        id="{{ form.username.name }}"
+        value="{{ form.username.value|default_if_none:'' }}"
+      />
+      {% for error in form.username.errors %}
+      <div id="content-help" class="form-text text-danger">
+        {{ field.errors }}
+        
+      </div>
+      {% endfor %}
+    </div>
+    
+
+     
+      <div class="fieldWrapper m-2" style="color: white;">
+        {{ form.password.label_tag }}
+
+        <input
+          type="password"
+          class="form-control"
+          name="{{ form.password.name }}"
+          id="{{ form.password.name }}"
+          value="{{ form.password.value|default_if_none:'' }}"
+        />
+        {% for error in form.password.errors %}
+        <div id="content-help" class="form-text text-danger">
+          {{ field.errors }}
+        </div>
+        {% endfor %}
+      </div>
+      
+
+        <div style="float: right">
+          <button type="submit" class="btn btn-primary">로그인</button>
+        </div>
+      </div>
+    </li>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "boards/base.html" %} {% block main %}
+<body style="background-color: rgb(1, 10, 19)">
+  <div class="container">
+    <div class="mt-5 contents-wrap">
+      <h1
+        class="nav-loc"
+        style="
+          color: white;
+          text-align: center;
+          margin-top: 150px;
+          font-size: 4rem;
+        "
+      >
+        환영합니다!
+      </h1>
+
+      <h3
+        class="nav-loc"
+        style="color: white; text-align: center; margin-top: 50px"
+      >
+        나의 정보: {{ user }}
+      </h3>
+
+      <video
+        id="video"
+        autoplay
+        loop
+        muted
+        playsinline
+        style="
+          height: 100%;
+          width: 100%;
+          object-position: center center;
+          object-fit: cover;
+          z-index: -1;
+          position: absolute;
+          height: 100%;
+          width: 100%;
+          top: 1px;
+          left: 0px;
+          transition: opacity 0.5s ease 0s;
+          overflow: hidden;
+        "
+      >
+        <source
+          src="https://assets.contentstack.io/v3/assets/blt2ac872571a60ee02/blt7a72b1686eb3219a/618d75137ae6ce6fab413b1f/background-video-d-02.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+  </div>
+</body>
+{% endblock %}

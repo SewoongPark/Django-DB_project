@@ -1,0 +1,14 @@
+img:hover {
+  width: 7rem;
+  transition: opacity 0.5s ease;
+}
+
+p {
+  opacity: 0.6;
+  transition: opacity 0.5s ease;
+}
+
+img:hover + p {
+  opacity: 1;
+  
+}
