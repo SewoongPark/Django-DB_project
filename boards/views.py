@@ -33,7 +33,12 @@ def board_detail(request, champion_id):
     ChampionSkillImgBoard = champion_skill_img_text.objects.filter().get(
         champion=champion_id
     )
-    ChampionCounterBoard = Champion_counter.objects.filter(champion=champion_id).all()
+    ChampionCounterBoard = Champion_counter.objects.filter(
+        champion_id=champion_id
+    ).all()
+
+    # ChampionCounterImgBoard = champion_tip.objects.filter().get(champion=counter_name)
+
     ChampionRateBoard = Champion_rate.objects.filter().get(champion=champion_id)
     ChampionSkillNameBoard = champion_skill_name.objects.filter().get(
         champion=champion_id
@@ -61,6 +66,7 @@ def board_detail(request, champion_id):
             "ChampionTipBoard": ChampionTipBoard,
             "ChampionSkillImgBoard": ChampionSkillImgBoard,
             "ChampionCounterBoard": ChampionCounterBoard,
+            # "ChampionCounterImgBoard": ChampionCounterImgBoard,
             "ChampionRateBoard": ChampionRateBoard,
             "ChampionSkillNameBoard": ChampionSkillNameBoard,
             "ChampionStoryBoard": ChampionStoryBoard,
